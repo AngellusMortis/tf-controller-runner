@@ -1,7 +1,16 @@
 #!/bin/bash
 
-cp -p -R /nix-init/store /nix/store
-cp -p -R /nix-init/var /nix/var
+touch /nix/build-version
+
+if [[ "$(cat /nix-init/build-version)" != "$(cat /nix/build-version)" ]]; then
+    chmod 777 -R /nix/store /nix/var > /dev/null 2>&1
+    rm -rf /nix/store /nix/var
+    cp /nix-init/build-version /nix/build-version
+fi
+
+mkdir -p /nix/store /nix/var
+cp -p -R /nix-init/store/* /nix/store/ > /dev/null 2>&1
+cp -p -R /nix-init/var/* /nix/var/ > /dev/null 2>&1
 
 rm -rf /home/runner/.local/state/nix /home/runner/.nix-defexpr /home/runner/.nix-profile || true
 mkdir -p /home/runner/.local/state/nix /home/runner/.nix-defexpr

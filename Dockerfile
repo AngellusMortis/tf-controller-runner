@@ -4,6 +4,7 @@ LABEL org.opencontainers.image.source=https://github.com/AngellusMortis/tf-contr
 
 USER root
 
+ARG BUILD_TAG=test
 ARG TARGETPLATFORM
 RUN --mount=target=/var/cache/apk,type=cache,sharing=locked,id=apk-$TARGETPLATFORM \
     apk update \
@@ -40,7 +41,8 @@ USER 65532:65532
 RUN nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware \
     && nix-channel --update \
     && cp -R /nix/store /nix-init/store \
-    && mv /nix/var /nix-init/var
+    && mv /nix/var /nix-init/var \
+    && echo "$BUILD_TAG" > /nix-init/build-version
 
 USER root
 
