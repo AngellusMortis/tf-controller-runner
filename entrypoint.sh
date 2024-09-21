@@ -16,5 +16,5 @@ fi
 if [[ "$@" == "ash" ]]; then
     exec "$@"
 else
-    /sbin/tini -- tf-runner $@
+    /sbin/tini -s -- tf-runner $@
 fi
