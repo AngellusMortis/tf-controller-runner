@@ -9,9 +9,10 @@ ARG TARGETPLATFORM
 RUN --mount=target=/var/cache/apk,type=cache,sharing=locked,id=apk-$TARGETPLATFORM \
     apk update \
     && apk add curl xz bash jq shadow sudo \
-    && mkdir -m 0755 /nix /nix-init /etc/nix /nix-init/user-profiles \
-    && chown 65532:65532 /nix /nix-init /nix-init/user-profiles \
-    && echo "extra-experimental-features = nix-command" > /etc/nix/nix.conf
+    && mkdir -m 0755 /nix /nix-init /etc/nix /nix-init/user-profiles /nix/user-cache /home/runner/.cache \
+    && chown 65532:65532 /nix /nix-init /nix-init/user-profiles /nix/user-cache /home/runner/.cache \
+    && echo "extra-experimental-features = nix-command" > /etc/nix/nix.conf \
+    && ln -s /nix/user-cache /home/runner/.cache/nix
 
 USER 65532:65532
 
@@ -40,8 +41,9 @@ USER 65532:65532
 
 RUN nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware \
     && nix-channel --update \
-    && cp -R /nix/store /nix-init/store \
+    && cp -p -R /nix/store /nix-init/store \
     && mv /nix/var /nix-init/var \
+    && mv /nix/user-cache /nix-init/user-cache \
     && echo "$BUILD_TAG" > /nix-init/build-version
 
 USER root
