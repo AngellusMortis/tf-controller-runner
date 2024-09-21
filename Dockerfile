@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.3-labs
 FROM ghcr.io/weaveworks/tf-runner:v0.15.1 
 
 LABEL org.opencontainers.image.source=https://github.com/AngellusMortis/tf-controller-runner
