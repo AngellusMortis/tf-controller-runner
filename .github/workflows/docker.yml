@@ -48,4 +48,4 @@ jobs:
           cache-from: ghcr.io/${{ env.GHCR_REPO }}:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ env.GHCR_REPO }}:buildcache,mode=max
           tags: |
-            ghcr.io/${{ env.GHCR_REPO }}:v0.15.1-nix-1
+            ghcr.io/${{ env.GHCR_REPO }}:v0.15.1-nix-2
