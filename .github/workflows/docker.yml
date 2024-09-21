@@ -12,6 +12,9 @@ concurrency:
 permissions:
   packages: write
 
+env:
+  BUILD_TAG: v0.15.1-nix-10
+
 jobs:
   docker:
     name: Build Docker Image
@@ -47,5 +50,7 @@ jobs:
           push: true
           cache-from: ghcr.io/${{ env.GHCR_REPO }}:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ env.GHCR_REPO }}:buildcache,mode=max
+          build-args:
+            BUILD_TAG=${{ env.BUILD_TAG }}
           tags: |
-            ghcr.io/${{ env.GHCR_REPO }}:v0.15.1-nix-9
+            ghcr.io/${{ env.GHCR_REPO }}:${{ env.BUILD_TAG }}
