@@ -1,10 +1,10 @@
 #!/bin/bash
 
 cp -p -R /nix-init/store /nix/store
-mv /nix-init/var /nix/var
+cp -p -R /nix-init/var /nix/var
 
-if [[ -z "$@" ]]; then
-    /sbin/tini -- tf-runner
-else
+if [[ "$@" == "ash" ]]; then
     exec "$@"
+else
+    /sbin/tini -- tf-runner $@
 fi
