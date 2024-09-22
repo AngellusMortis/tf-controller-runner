@@ -40,6 +40,7 @@ RUN ln -s channels-2-link /nix-init/user-profiles/channels \
 USER 65532:65532
 
 RUN nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware \
+    && nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager \
     && nix-channel --update \
     && cp -p -R /nix/store /nix-init/store \
     && mv /nix/var /nix-init/var \
@@ -50,7 +51,8 @@ USER root
 
 COPY ./entrypoint.sh /entrypoint
 RUN chmod +x /entrypoint \
-    && ln -s $(readlink -f /home/runner/.local/state/nix/profiles/channels-2-link) /nix-init/user-profiles/channels-2-link
+    && ln -s $(readlink -f /home/runner/.local/state/nix/profiles/channels-2-link) /nix-init/user-profiles/channels-2-link \
+    && ln -s $(readlink -f /home/runner/.local/state/nix/profiles/channels-3-link) /nix-init/user-profiles/channels-3-link
 
 USER 65532:65532
 ENTRYPOINT [ "/entrypoint" ]
