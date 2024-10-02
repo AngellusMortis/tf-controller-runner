@@ -13,7 +13,7 @@ permissions:
   packages: write
 
 env:
-  BUILD_TAG: v0.15.1-nix-12
+  BUILD_TAG: v0.15.1-nix-13
 
 jobs:
   docker:
