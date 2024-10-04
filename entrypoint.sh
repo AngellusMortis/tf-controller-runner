@@ -3,6 +3,7 @@
 touch /nix/build-version
 
 if [[ "$(cat /nix-init/build-version)" != "$(cat /nix/build-version)" ]]; then
+    echo "Copying nix store..."
     chmod 777 -R /nix/store /nix/var > /dev/null 2>&1
     rm -rf /nix/store /nix/var
     cp /nix-init/build-version /nix/build-version
@@ -35,6 +36,8 @@ fi
 if [[ "$@" == "ash" ]]; then
     exec "$@"
 else
+    echo "Updating nix channels..."
     nix-channel --update
+    echo "Starting tf-runner..."
     /sbin/tini -s -- tf-runner $@
 fi
