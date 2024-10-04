@@ -6,7 +6,7 @@ if [[ "$(cat /nix-init/build-version)" != "$(cat /nix/build-version)" ]]; then
     chmod 777 -R /nix/store /nix/var > /dev/null 2>&1
     rm -rf /nix/store /nix/var
     cp /nix-init/build-version /nix/build-version
-    
+
     mkdir -p /nix/store /nix/var /nix/user-cache
     cp -p -R /nix-init/store/* /nix/store/ > /dev/null 2>&1
     cp -p -R /nix-init/var/* /nix/var/ > /dev/null 2>&1
@@ -35,5 +35,6 @@ fi
 if [[ "$@" == "ash" ]]; then
     exec "$@"
 else
+    nix-channel --update
     /sbin/tini -s -- tf-runner $@
 fi
