@@ -52,9 +52,7 @@ USER root
 
 COPY ./entrypoint.sh /entrypoint
 RUN chmod +x /entrypoint \
-    && ln -s $(readlink -f /home/runner/.local/state/nix/profiles/channels-2-link) /nix-init/user-profiles/channels-2-link \
-    && ln -s $(readlink -f /home/runner/.local/state/nix/profiles/channels-3-link) /nix-init/user-profiles/channels-3-link \
-    && ln -s $(readlink -f /home/runner/.local/state/nix/profiles/channels-4-link) /nix-init/user-profiles/channels-4-link
+    && ln -s $(readlink -f /home/runner/.local/state/nix/profiles/channels-2-link) /nix-init/user-profiles/channels-2-link
 
 USER 65532:65532
 ENTRYPOINT [ "/entrypoint" ]

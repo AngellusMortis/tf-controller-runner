@@ -25,7 +25,12 @@ ln -s /nix/user-cache /home/runner/.cache/nix
 cat > /home/runner/.nix-channels << EOF
 https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
 https://nixos.org/channels/nixpkgs-unstable nixpkgs
+https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+https://github.com/Mic92/sops-nix/archive/master.tar.gz sops-nix
 EOF
+
+echo "Updating nix channels..."
+nix-channel --update
 
 if [[ -f "/home/runner/dev/mortis-k8s/iac/wl/dns/builder-key" ]]; then
     mkdir ~/.ssh
@@ -36,8 +41,6 @@ fi
 if [[ "$@" == "ash" ]]; then
     exec "$@"
 else
-    echo "Updating nix channels..."
-    nix-channel --update
     echo "Starting tf-runner..."
     /sbin/tini -s -- tf-runner $@
 fi
