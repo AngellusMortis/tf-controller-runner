@@ -8,15 +8,16 @@ if [[ "$(cat /nix-init/build-version)" != "$(cat /nix/build-version)" ]]; then
     rm -rf /nix/store /nix/var
     cp /nix-init/build-version /nix/build-version
 
-    mkdir -p /nix/store /nix/var /nix/user-cache
+    mkdir -p /nix/store /nix/var /nix/user-cache /nix/user-profiles
     cp -p -R /nix-init/store/* /nix/store/ > /dev/null 2>&1
     cp -p -R /nix-init/var/* /nix/var/ > /dev/null 2>&1
+    cp -p -R /nix-init/user-profiles/* /nix/user-profiles/ > /dev/null 2>&1
 fi
 
 mkdir -p /nix/store /nix/var /nix/user-cache
 rm -rf /home/runner/.local/state/nix /home/runner/.nix-defexpr /home/runner/.nix-profile /home/runner/.cache || true
 mkdir -p /home/runner/.local/state/nix /home/runner/.nix-defexpr /home/runner/.cache
-ln -s /nix-init/user-profiles /home/runner/.local/state/nix/profiles
+ln -s /nix/user-profiles /home/runner/.local/state/nix/profiles
 ln -s /home/runner/.local/state/nix/profiles/channels /home/runner/.nix-defexpr/channels
 ln -s /nix/var/nix/profiles/per-user/root/channels /home/runner/.nix-defexpr/channels_root
 ln -s /home/runner/.local/state/nix/profiles/profile /home/runner/.nix-profile
