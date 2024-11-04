@@ -32,6 +32,7 @@ EOF
 
 echo "Updating nix channels..."
 nix-channel --update
+nix-collect-garbage --delete-older-than 14d
 
 if [[ -f "/home/runner/dev/mortis-k8s/iac/wl/dns/builder-key" ]]; then
     mkdir ~/.ssh
